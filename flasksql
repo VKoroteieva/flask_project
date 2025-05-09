@@ -1,6 +1,0 @@
-flask_sqlalchemy_demo/
-│
-├── app.py
-├── models.py
-├── db.py
-└── requirements.txt

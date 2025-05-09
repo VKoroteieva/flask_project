@@ -1,11 +1,20 @@
-from db import db
+from .db import db
 
-class Author(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    books = db.relationship('Book', backref='author', lazy=True)
+student_course = db.Table('student_course',
+    db.Column('student_id', db.Integer, db.ForeignKey('student.id'), primary_key=True),
+    db.Column('course_id', db.Integer, db.ForeignKey('course.id'), primary_key=True)
+)
 
-class Book(db.Model):
+class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), nullable=False)
-    author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
+    courses = db.relationship('Course', secondary=student_course, backref='students')
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
